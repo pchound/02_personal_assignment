@@ -1,34 +1,5 @@
-/*const { MongoClient } = require('mongodb')
-
-let dbConnection
-let uri = "mongodb+srv://testuser:testpassword@cluster0.q4bub0t.mongodb.net/?retryWrites=true&w=majority";
-
-module.exports = 
-{
-    connecToDb: (cb) => 
-    {
-        MongoClient.connect(uri)
-        .then((client) => 
-        {
-            dbConnection = client.db()
-            return cb()
-        })
-        .catch(err =>
-        {
-            console.log(err)
-            return cb(err)
-        })
-    },
-    getDb: () => dbConnection
-}
-
-
-async function listDatabases(client){
-    databasesList = await client.db().admin().listDatabases();
- 
-    console.log("Databases:");
-    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-};*/
+const dotenv = require("dotenv")
+dotenv.config()
 
 const { MongoClient } = require('mongodb');
 
@@ -39,6 +10,7 @@ async function main() {
      */
     const uri = "mongodb+srv://testuser:testpassword@cluster0.q4bub0t.mongodb.net/?retryWrites=true&w=majority";
 
+    //const uri = "mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.q4bub0t.mongodb.net/?retryWrites=true&w=majority";
     /**
      * The Mongo Client you will use to interact with your database
      * See https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html for more details
