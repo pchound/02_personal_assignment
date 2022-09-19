@@ -1,6 +1,5 @@
-const dotenv = require("dotenv")
-dotenv.config()
-
+const dotenv = require("dotenv");
+dotenv.config();
 const { MongoClient } = require('mongodb');
 
 async function main() {
@@ -8,9 +7,12 @@ async function main() {
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
      */
-    const uri = "mongodb+srv://testuser:testpassword@cluster0.q4bub0t.mongodb.net/?retryWrites=true&w=majority";
+    //const uri = "mongodb+srv://testuser:testpassword@cluster0.q4bub0t.mongodb.net/?retryWrites=true&w=majority";
 
-    //const uri = "mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.q4bub0t.mongodb.net/?retryWrites=true&w=majority";
+    
+    //console.log(process.env);
+    const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.q4bub0t.mongodb.net/?retryWrites=true&w=majority`;
+    console.log(uri);
     /**
      * The Mongo Client you will use to interact with your database
      * See https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html for more details

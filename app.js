@@ -1,6 +1,8 @@
 const express = require('express')
 const {connectToDb, getDb} = require('./db')
 
+
+
 //init app & middleware
 const app = express()
 
