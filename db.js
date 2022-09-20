@@ -22,12 +22,45 @@ async function main() {
      */
     const client = new MongoClient(uri);
 
-    try {
+    //----------------------Calls the functions below---------------------------------------
+    try 
+    {
         // Connect to the MongoDB cluster
         await client.connect();
 
+
+    //-----Calls to create multiple listings
+        await createMultipleListings(client,[
+        {
+            name: "Beach House",
+            summary: "A relaxing small beach home with a view of the hawaiian sunsets",
+            bedrooms: 2,
+            bathrooms: 2,
+            last_review: new Date()
+        },
+        {
+            name: "Lodge",
+            summary: "Vacationing in the Alaskan winters? No problem with our heated wooded lodge!",
+            bedrooms: 2,
+            bathrooms: 2,
+            last_review: new Date()
+        }
+    ]);
+
+
+
+
+    //------Calls to create a single listing
+        /*await createListing(client,
+        {
+            name: "Lovely Loft",
+            summary: "A charming loft in Paris",
+            bedrooms: 1,
+            bathrooms: 1
+        })*/
+        
         // Make the appropriate DB calls
-        await listDatabases(client);
+        //await listDatabases(client);
 
     } catch (e) {
         console.error(e);
@@ -38,6 +71,34 @@ async function main() {
 }
 
 main().catch(console.error);
+
+
+
+//-----Creates multiple new listings
+async function createMultipleListings(client, newListings)
+{
+    const result = await client.db("sample_airbnb").collection("listingsAndReviews")
+    .insertMany(newListings);
+
+    console.log(`${result.insertedCount} new listings created with the following id
+    (s):`);
+    console.log(result.insertedIds);
+}
+
+
+
+//--------Creates one new listing
+/*async function createListing(client, newListing)
+{
+    const result = await client.db("sample_airbnb").collection("listingsAndReviews").insertOne
+    (newListing);
+
+    console.log(`New listing created with the following id: ${result.insertedId}`);
+}*/
+
+
+
+
 
 /**
  * Print the names of all available databases
