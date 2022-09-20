@@ -1,6 +1,11 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const { MongoClient } = require('mongodb');
+const contacts_controller = require('./controllers/contacts_controller');
+
+const http = require('http');
+const server = http.createServer('');
+
 
 async function main() {
     /**
@@ -22,6 +27,25 @@ async function main() {
      */
     const client = new MongoClient(uri);
 
+    server.on('request', (request,response) => 
+    {
+        const current_url = new URL(request.url);
+        const path = current_url.pathname;
+        const method = request.method;
+        const query = current_url.searchParams;
+
+
+        if (method == 'GET' && path == '/contacts' && query == '')
+        {
+           contacts_controller.contacts(request,response);
+        }
+        else if(method == 'GET' && path == '/contacts' && query != '')
+        {
+            
+        }
+
+    })
+
     //----------------------Calls the functions below---------------------------------------
     try 
     {
@@ -30,7 +54,7 @@ async function main() {
 
 
     //-----Calls to create multiple listings
-        await createMultipleListings(client,[
+        /*await createMultipleListings(client,[
         {
             name: "Beach House",
             summary: "A relaxing small beach home with a view of the hawaiian sunsets",
@@ -45,8 +69,31 @@ async function main() {
             bathrooms: 2,
             last_review: new Date()
         }
-    ]);
+    ]);*/
 
+        client.db("sample_airbnb").collection('contacts').insertMany([
+            {
+                firstName: "Belle",
+                lastName: "Garner",
+                email: "n/a",
+                favoriteColor: "orange",
+                birthday: 4-29-2022
+            },
+            {
+                firstName: "Joseph",
+                lastName: "Garner",
+                email: "joedude1994@gmail.com",
+                favoriteColor: "orange",
+                birthday: 10-04-1994
+            },
+            {
+                firstName: "Jolaine",
+                lastName: "Slomboski",
+                email: "n/a",
+                favoriteColor: "periwinkle",
+                birthday: 01-19-1961
+            },
+        ])
 
 
 
@@ -69,6 +116,8 @@ async function main() {
         await client.close();
     }
 }
+
+export{client};
 
 main().catch(console.error);
 
@@ -110,3 +159,5 @@ async function listDatabases(client) {
     console.log("Databases:");
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 };
+
+server.listen(8080)
