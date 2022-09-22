@@ -1,9 +1,25 @@
 const http = require('http');
-import {client} from './server';
-
-function contacts(request, response)
+const client = require('../db.js').client;
+const mongodb = require('mongodb');
+async function contacts(request, response)
 {
-    const contacts = client.db('sample_airbnb').collection('contacts').find({});
+    console.log('Responding to request');
+    const contacts = await client.db('sample_airbnb').collection('contacts').find({}).toArray();
     response.writeHead(200,{'Content-Type':'application/json'});
-    response.end(contacts,'utf-8');
+    response.end(JSON.stringify(contacts),'utf-8');
 };
+
+async function contactsId(request, response)
+{
+    let uri = new URL(request.url, `http://${request.headers.host}`);
+    let params = uri.searchParams;
+    let id = params.get('id');
+    let contact = await client.db('sample_airbnb').collection('contacts').findOne({'_id' : mongodb.ObjectId(id)});
+    console.log('Results: ' + contact);
+    console.log('search_id:' + id);
+
+    response.writeHead(200,{'ContentType' : 'application/json'});
+    response.end(JSON.stringify(contact), "utf-8");
+};
+
+module.exports={contacts, contactsId};
