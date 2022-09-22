@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const contacts_route = require('./routes/contactsRoute.js');
+let PORT = process.env.PORT || 3000;
 const http = require('http');
 
 let server = http.createServer((req, res) => 
@@ -12,5 +13,5 @@ let server = http.createServer((req, res) =>
 
     contacts_route(req,res);
 
-}).listen(8080);
+}).listen(PORT);
 console.log('server:' + `http://${server.address().address}:${server.address().port}`);
