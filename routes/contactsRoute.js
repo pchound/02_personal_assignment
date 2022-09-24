@@ -19,6 +19,23 @@ function route(req, res)
         contacts_controller.contactsId(req,res);
     }
 
+
+
+    else if (method == 'POST' && uri.pathname == '/contacts')
+    {
+        contacts_controller.saveContact(req,res);
+    }
+    else if (method == 'PUT' && uri.pathname == '/contacts' && id != null)
+    {
+        contacts_controller.contactsId(req,res);
+    }
+    else if (method == 'DELETE' && uri.pathname == '/contacts' && id != null)
+    {
+        contacts_controller.contactsId(req,res);
+    }
+
+
+
     else
     {
         res.writeHead(404,{'ContentType' : 'text/plain'});
