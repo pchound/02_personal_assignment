@@ -6,7 +6,6 @@ const http = require('http');
 
 let server = http.createServer((req, res) => 
 {
-  
     let url = new URL(req.url, `http://${req.headers.host}`);
     
     console.log(`recieved request @ url ${url}, method with ${req.method}.`);
@@ -14,4 +13,3 @@ let server = http.createServer((req, res) =>
     contacts_route(req,res);
 
 }).listen(PORT);
-console.log('server:' + `http://${server.address().address}:${server.address().port}`);
